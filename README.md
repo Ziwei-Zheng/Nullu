@@ -1,5 +1,5 @@
 # Nullu: Mitigating Object Hallucinations in Large Vision-Language Models via HalluSpace Projection
-Le Yang, Ziwei Zheng, Boxu Chen, Zhengyu Zhao, Chenhao Lin, Chao Shen
+Le Yang*, Ziwei Zheng*, Boxu Chen, Zhengyu Zhao, Chenhao Lin, Chao Shen. *equal contribution. XJTU AISEC Team.
 
 This repository contains the official code of Nullu, a method for mitigating object hallucinations in LVLMs via HalluSpace Projection.
 
