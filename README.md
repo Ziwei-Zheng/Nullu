@@ -3,7 +3,7 @@ Le Yang*, Ziwei Zheng*, Boxu Chen, Zhengyu Zhao, Chenhao Lin, Chao Shen. *equal 
 
 This repository contains the official code of Nullu, a method for mitigating object hallucinations in LVLMs via HalluSpace Projection.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-g.svg)](https://opensource.org/licenses/MIT) [![Arxiv](https://img.shields.io/badge/Paper-Arxiv-red)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-g.svg)](https://opensource.org/licenses/MIT) [![Arxiv](https://img.shields.io/badge/Paper-Arxiv-red)](http://arxiv.org/abs/2412.13817)
 
 ## Overview
 <div align="center">
