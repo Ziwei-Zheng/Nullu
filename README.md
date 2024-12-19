@@ -19,7 +19,7 @@ This repository contains the official code of Nullu, a method for mitigating obj
 ### :pushpin: Installation
 Git clone our repository, creating a python environment and activate it via the following command.
 ```bash
-    git clone ------------------
+    git clone https://github.com/Ziwei-Zheng/Nullu.git
     cd Nullu
     conda env create -f environment.yml
     conda activate nullu
@@ -43,7 +43,7 @@ Before model editing, you need to to install a specific version of transformers:
     pip install transformers==4.31.0
     ```
 #### Dataset
-- Model editing and evaluation require the MSCOCO 2014 dataset. Please download [here](https://cocodataset.org/#download).
+Model editing and evaluation require the MSCOCO 2014 dataset. Please download [here](https://cocodataset.org/#download).
 
 ### :hammer_and_wrench: Model editing
 
@@ -121,17 +121,17 @@ python scripts/llavabench_gpt_eval.py --raw_answer_path [PATH_TO_RAW_MODEL_RESPO
 ```
 GPT-4V evaluated responses will be saved under `eval/llavabench/results/` as `.log` file.
 
-## Expriments
+## Experiments
 - **Nullu mitigates the object hallucination issue across different LVLM families.**
 <p align="center">
-  <img src="figs/table12.png" alt="exp1" style="max-width: 80%; height: auto;">
+  <img src="figs/table12.png" alt="exp1" style="max-width: 60%; height: auto;">
 </p>
 
 *table 12. Results on POPE. Original denotes direct sampling for LVLMs, whereas Nullu refers to edit the model with the proposed method.*
 
 - **Results in general LVLM benchmarks, highlighting its wide-ranging applicability.**
 <p align="center">
-  <img src="figs/figure5.png" alt="exp2" style="max-width: 80%; height: auto;">
+  <img src="figs/figure5.png" alt="exp2" style="max-width: 60%; height: auto;">
 </p>
 
 *figure 5. MME full set results on LLaVA-1.5. From the results we see that Nullu leads to consistent improvements of LVLM in both perception tasks and recognition capacities.*
@@ -141,10 +141,7 @@ GPT-4V evaluated responses will be saved under `eval/llavabench/results/` as `.l
 
 *table 4. Results of GPT-4V-aided evaluation on LLaVA-Bench following the setting in [VCD](https://arxiv.org/abs/2311.16922). Both metrics are on a scale of 10.*
 
-- **Please refer to [our paper]() for detailed experimental results.**
+- **Please refer to [our paper](http://arxiv.org/abs/2412.13817) for detailed experimental results.**
 ## Acknowledgement
 This repository builds upon the contributions of [ProFS](https://arxiv.org/abs/2405.13967), [LLaVA 1.5](https://github.com/haotian-liu/LLaVA), [mPLUG_Owl2](https://github.com/X-PLUG/mPLUG-Owl/tree/main/mPLUG-Owl2), [MiniGPT-4](https://minigpt-4.github.io/.
 ). Thanks for their awesome works.
-<!-- - [ProFS](https://arxiv.org/abs/2405.13967): Model Editing as a robust and denoised variant of DPO: A Case Study On Toxicity
-- [LLaVA 1.5](https://github.com/haotian-liu/LLaVA): Improved Baselines with Visual Instruction Tuning -->
-<!-- - [Qwen-VL](https://github.com/QwenLM/Qwen-VL): A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond -->
