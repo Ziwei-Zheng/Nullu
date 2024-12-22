@@ -145,6 +145,19 @@ GPT-4V evaluated responses will be saved under `eval/llavabench/results/` as `.l
 *table 4. Results of GPT-4V-aided evaluation on LLaVA-Bench following the setting in [VCD](https://arxiv.org/abs/2311.16922). Both metrics are on a scale of 10.*
 
 - **Please refer to [our paper](http://arxiv.org/abs/2412.13817) for detailed experimental results.**
+
+### Citation
+If you find this work useful or use our codes in your own research, please use the following bibtex:
+```
+@article{yang2024nullu,
+  title={Nullu: Mitigating Object Hallucinations in Large Vision-Language Models via HalluSpace Projection},
+  author={Yang, Le and Zheng, Ziwei and Chen, Boxu and Zhao, Zhengyu and Lin, Chenhao and Shen, Chao},
+  journal={arXiv preprint arXiv:2412.13817},
+  year={2024}
+}
+```
+
+
 ## Acknowledgement
 This repository builds upon the contributions of [ProFS](https://arxiv.org/abs/2405.13967), [LLaVA 1.5](https://github.com/haotian-liu/LLaVA), [mPLUG_Owl2](https://github.com/X-PLUG/mPLUG-Owl/tree/main/mPLUG-Owl2), [MiniGPT-4](https://minigpt-4.github.io/.
 ). Thanks for their awesome works.
