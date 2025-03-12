@@ -149,11 +149,11 @@ GPT-4V evaluated responses will be saved under `eval/llavabench/results/` as `.l
 ### Citation
 If you find this work useful or use our codes in your own research, please use the following bibtex:
 ```
-@article{yang2024nullu,
+@inproceedings{yang2025nullu,
   title={Nullu: Mitigating Object Hallucinations in Large Vision-Language Models via HalluSpace Projection},
   author={Yang, Le and Zheng, Ziwei and Chen, Boxu and Zhao, Zhengyu and Lin, Chenhao and Shen, Chao},
-  journal={arXiv preprint arXiv:2412.13817},
-  year={2024}
+  booktitle={Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
+  year={2025}
 }
 ```
 
