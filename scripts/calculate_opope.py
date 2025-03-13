@@ -135,7 +135,7 @@ def opope_calculation(response_file):
         with open(result_save_file, 'w') as f:
             json.dump(metrics, f, indent=4)
 
-    print(f'Results saved to: {os.path.dirname(response_file)}')
+    print(f'Results saved to: {os.path.dirname(result_save_file)}')
 
 
 
