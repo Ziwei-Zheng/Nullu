@@ -137,10 +137,10 @@ class HalluEdit():
         return difference_matrix
 
 
-    def get_ats(self, pos_data, neg_data):
+    def get_edit_features(self, pos_data, neg_data):
 
         difference_matrix = self._get_difference_matrix(pos_data, neg_data)  # (L, N, D)
-        ats = {}
+        edit_features = {}
 
         for key in self.model.model.state_dict():
             if self.model.args.model_name == 'MiniGPT4':
@@ -154,14 +154,14 @@ class HalluEdit():
                     and not 'up_proj' in key
                 ):
                     layer_num = int(key.split('.')[self.lm_sep_idx])  
-                    ats[key] = difference_matrix[layer_num]
+                    edit_features[key] = difference_matrix[layer_num]
             elif self.model.args.model_name == 'Qwen_VL_Chat':
                 if (
                     'mlp.c_proj.weight' in key 
                     and not 'visual' in key 
                 ):
                     layer_num = int(key.split('.')[self.lm_sep_idx])  
-                    ats[key] = difference_matrix[layer_num]
+                    edit_features[key] = difference_matrix[layer_num]
             elif self.model.args.model_name == 'mPLUG_Owl2':
                 if (
                     'weight' in key 
@@ -172,7 +172,7 @@ class HalluEdit():
                     and not 'visual' in key # owl2
                 ):
                     layer_num = int(key.split('.')[self.lm_sep_idx])  
-                    ats[key] = difference_matrix[layer_num]
+                    edit_features[key] = difference_matrix[layer_num]
             else:
                 if (
                     'weight' in key 
@@ -182,11 +182,11 @@ class HalluEdit():
                     and not 'up_proj' in key
                 ):
                     layer_num = int(key.split('.')[self.lm_sep_idx])  # Format: 'language_model.model.layers.0.mlp.gate_proj.weight'
-                    ats[key] = difference_matrix[layer_num]
-        return ats
+                    edit_features[key] = difference_matrix[layer_num]
+        return edit_features
     
     
-    def svd_on_ats(self, ats):
+    def svd_on_edit_features(self, edit_features):
         '''
         Key(D, 4D) -> U(D, D) S(D) V^T(D, 4D)
         Value(4D, D) -> U(4D, D) S(4D) V^T(D, D)
@@ -195,12 +195,12 @@ class HalluEdit():
         Note: v @ v.T is not numerically I, but plotting it as a heatmap shows that it is close to I.
         '''
         svd = {}
-        for key in ats:
+        for key in edit_features:
             logging.debug(f'Calculating SVD for: {key}')
-            M = ats[key].to(torch.float32)  # SVD function only works with float32
+            M = edit_features[key].to(torch.float32)  # SVD function only works with float32
             u, s, vt = torch.linalg.svd(M.cuda(), full_matrices=False)  # Skinny SVD, vt is V^T
             svd[key] = {'u': u.cpu(), 's': s.cpu(), 'v': vt.T.cpu()}
-        logging.info('SVD of ATS calculated.')
+        logging.info('SVD of Edit_Features calculated.')
         return svd
 
 
@@ -252,22 +252,22 @@ class HalluEdit():
                     logging.info(f'Editing: {key}')
                     logging.info(f'Module {key}: P_hallu mean: {hallu_subspace[key].mean()}.')
 
-                    P_filter = torch.eye(self.D) - hallu_subspace[key]
+                    Null_space = torch.eye(self.D) - hallu_subspace[key]
                     if self.model.args.model_name == 'MiniGPT4':
-                        P_filter = P_filter.to(edited_state_dict[key].device).to(self.model.model.llama_model.dtype)
+                        Null_space = Null_space.to(edited_state_dict[key].device).to(self.model.model.llama_model.dtype)
                     else:
-                        P_filter = P_filter.to(edited_state_dict[key].device).to(self.model.model.dtype)
+                        Null_space = Null_space.to(edited_state_dict[key].device).to(self.model.model.dtype)
 
                     weight = edited_state_dict[key]
                     weight = weight.T
 
                     if edit_keys and 'up_proj' in key:
-                        modified_weight = P_filter @ weight  # (D, D) @ (D, 4D) -> (D, 4D)
+                        modified_weight = Null_space @ weight  # (D, D) @ (D, 4D) -> (D, 4D)
                     elif edit_values and 'down_proj' in key:
-                        modified_weight = weight @ P_filter  # (4D, D) @ (D, D) -> (4D, D)
+                        modified_weight = weight @ Null_space  # (4D, D) @ (D, D) -> (4D, D)
                     elif 'c_proj' in key: # Qwen_VL_Chat
                         print('c_proj')
-                        modified_weight = weight @ P_filter
+                        modified_weight = weight @ Null_space
                     else:
                         print('no modified_weight')
                         continue
@@ -286,9 +286,9 @@ class HalluEdit():
 
 
     def setup_for_edits(self, pos_data, neg_data):
-        ats = self.get_ats(pos_data, neg_data)
-        svd = self.svd_on_ats(ats)
-        del ats
+        edit_features = self.get_edit_features(pos_data, neg_data)
+        svd = self.svd_on_edit_features(edit_features)
+        del edit_features
         self.hallu_subspace = self.find_p_hallu(svd)
         del svd
         torch.cuda.empty_cache()
