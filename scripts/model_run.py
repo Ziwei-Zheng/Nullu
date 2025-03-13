@@ -91,6 +91,6 @@ if __name__ == "__main__":
     parser.add_argument("--num_samples", type=int, default=None) 
     parser.add_argument("--sampling", choices=['first', 'random'], default='first') 
 
-    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--save", type=str, default="")   
     main(parser.parse_args())
