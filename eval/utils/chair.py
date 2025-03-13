@@ -6,6 +6,7 @@ import json
 from pattern.text.en.inflect import singularize
 import argparse
 from eval.utils.misc import *
+from tqdm import tqdm
 # from misc import *
 
 
@@ -203,18 +204,14 @@ class CHAIR(object):
         for cat in coco_segments["categories"]:
             id_to_name[cat["id"]] = cat["name"]
 
-        for i, annotation in enumerate(segment_annotations):
-            sys.stdout.write(
-                "\rGetting annotations for %d/%d segmentation masks"
-                % (i, len(segment_annotations))
-            )
+        for i, annotation in tqdm(enumerate(segment_annotations), desc="Getting annotations for segmentation masks", total=len(segment_annotations)):
             imid = annotation["image_id"]
             if imid in self.imid_to_objects:
                 node_word = self.inverse_synonym_dict[
                     id_to_name[annotation["category_id"]]
                 ]
                 self.imid_to_objects[imid].append(node_word)
-        print("\n")
+
         for imid in self.imid_to_objects:
             self.imid_to_objects[imid] = set(self.imid_to_objects[imid])
 
@@ -226,17 +223,12 @@ class CHAIR(object):
         coco_caps = combine_coco_captions(self.coco_path)
         caption_annotations = coco_caps["annotations"]
 
-        for i, annotation in enumerate(caption_annotations):
-            sys.stdout.write(
-                "\rGetting annotations for %d/%d ground truth captions"
-                % (i, len(coco_caps["annotations"]))
-            )
+        for i, annotation in tqdm(enumerate(caption_annotations), desc="Getting annotations for ground truth captions", total=len(caption_annotations)):
             imid = annotation["image_id"]
             if imid in self.imid_to_objects:
                 _, node_words, _, _ = self.caption_to_words(annotation["caption"])
                 self.imid_to_objects[imid].update(node_words)
-        print("\n")
-
+                
         for imid in self.imid_to_objects:
             self.imid_to_objects[imid] = set(self.imid_to_objects[imid])
 
