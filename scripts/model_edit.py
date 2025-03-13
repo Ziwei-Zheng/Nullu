@@ -136,7 +136,7 @@ if __name__ == "__main__":
     parser.add_argument("--edit_keys", action="store_true", default=False)
     parser.add_argument("--edit_values", action="store_true", default=True)
 
-    parser.add_argument("--top_k_ranks", type=int, default=4) #
+    parser.add_argument("--top_k_ranks", type=int, default=8) #
     parser.add_argument("--lowest_layer", type=int, default=16) # 31-32,16-32,16-24,24-32
     parser.add_argument("--highest_layer", type=int, default=32) #
 
