@@ -127,8 +127,8 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog='Run a model')
     parser.add_argument("--model_name", choices=['LLaVA-7B', 'MiniGPT4', 'mPLUG_Owl2'], default="MiniGPT4") 
-    parser.add_argument("--model_path", default="/workspace/Nullu/output/edited_model/MiniGPT4-top4-16-32-test") 
-    parser.add_argument("--dataset", choices=['chair', 'pope', 'opope'], default="pope")
+    parser.add_argument("--model_path", default="/workspace/Nullu/output/edited_model/MiniGPT4-top8-16-32-test") 
+    parser.add_argument("--dataset", choices=['chair', 'pope', 'opope'], default="chair")
     parser.add_argument("--split", default="val")
 
     parser.add_argument("--num_samples", type=int, default=1)
@@ -143,7 +143,7 @@ if __name__ == "__main__":
     parser.add_argument("--num_beams", type=int, default=3)
     parser.add_argument("--max_length", type=int, default=64)
 
-    parser.add_argument("--seed", type=int, default=114514)
+    parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--save", type=str, default="")
     
     # MME
